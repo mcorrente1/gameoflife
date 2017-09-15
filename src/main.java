@@ -27,12 +27,21 @@ public class main extends PApplet {
 
             for (int j = 0; j < board.getCols(); j++) {
 
-                if(board.getState(i,j) == 0){
-                    fill(255);
+                switch(board.getState(i,j)){
+                    case ALIVE:
+                        fill(100);
+                        break;
+                    case BIRTHED:
+                        fill(color(0,255,0));
+                        break;
+                    case DIED:
+                        fill(color(255,0,0));
+                        break;
+                    //BLANK
+                    default:
+                        fill(255);
                 }
-                else {
-                    fill(100);
-                }
+
                 rect(i * width, j*width, width, width);
             }
         }

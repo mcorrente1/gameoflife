@@ -3,22 +3,29 @@
  */
 public class Cell {
 
-    int state;
+    public enum State{
+        ALIVE,
+        BIRTHED,
+        DIED,
+        BLANK
+    }
+
+    State state;
 
      Cell(){
         if(Math.random() < 0.5){
-            state = 0;
+            state = State.BLANK;
         }
         else{
-            state = 1;
+            state = State.ALIVE;
         }
     }
 
-    Cell(int s){
+    Cell(State s){
         state = s;
     }
 
-    int getState(){
+    State getState(){
         return state;
     }
 

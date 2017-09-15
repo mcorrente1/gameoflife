@@ -36,7 +36,7 @@ public class Board {
         return board[0].length;
     }
 
-    int getState(int row, int col){
+    Cell.State getState(int row, int col){
         return board[row][col].getState();
     }
 
@@ -71,13 +71,13 @@ public class Board {
                     tempj = 0;
                 }
 
-                if(board[tempi][tempj].getState() == 1)
+                if(board[tempi][tempj].getState() == Cell.State.ALIVE || board[tempi][tempj].getState() == Cell.State.BIRTHED)
                     count++;
             }
         }
         System.out.println();
 
-        if (board[row][col].getState() == 1)
+        if (board[row][col].getState() == Cell.State.ALIVE || board[row][col].getState() == Cell.State.BIRTHED)
             count--;
 
         return count;
@@ -85,13 +85,18 @@ public class Board {
 
     //this method checks the state of a cell and its # of neighbors
     //against a set of rules and returns the value of the new state
-    int getStateFromRule(int currentState, int neighbors){
-        if(currentState == 1 && (neighbors < 2 || neighbors>3))
-            return 0;
-        else if(currentState == 0 && neighbors == 3)
-            return 1;
+    Cell.State getStateFromRule(Cell.State currentState, int neighbors){
+        if((currentState == Cell.State.ALIVE || currentState == Cell.State.BIRTHED) && (neighbors < 2 || neighbors>3))
+            return Cell.State.DIED;
+        else if((currentState == Cell.State.BLANK || currentState == Cell.State.DIED) && neighbors == 3)
+            return Cell.State.BIRTHED;
         else
-            return currentState;
+            if(currentState == Cell.State.BIRTHED)
+                return Cell.State.ALIVE;
+            else if(currentState == Cell.State.DIED)
+                    return Cell.State.BLANK;
+            else
+                return currentState;
     }
 
     //generates a new board by applying rules to the current state of the board
